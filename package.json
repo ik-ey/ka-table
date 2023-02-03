@@ -1,8 +1,8 @@
 {
-  "name": "ka-table",
+  "name": "@ik-ey/ka-table",
   "version": "7.8.4",
   "license": "MIT",
-  "repository": "github:komarovalexander/ka-table",
+  "repository": "https://github.com/ik-ey/ka-table.git",
   "homepage": "https://komarovalexander.github.io/ka-table/#/overview",
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -83,13 +83,16 @@
     "sass": "^1.54.4",
     "simulant": "^0.2.2",
     "tslint": "^6.1.0",
-    "typescript": "~3.7.2"
+    "typescript": "^4.9.5"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/lib/Components/**/*.{ts,tsx}",
       "src/lib/Utils/*.ts"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "datagrid",
