@@ -36,12 +36,12 @@ const update = (id: any, data: any): Promise<any> => {
       dataArray[i] = {...dataArray[i], ...data};
     }
   }
-  return new Promise((resolve) => {resolve()});
+  return new Promise<void>((resolve) => {resolve()});
 };
 
 const deleteRow = (id: any): Promise<any> => {
   dataArray = dataArray.filter((d) => d.id !== id);
-  return new Promise((resolve) => {resolve()});
+  return new Promise<void>((resolve) => {resolve()});
 };
 
 export default {
