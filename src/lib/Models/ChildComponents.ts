@@ -5,7 +5,7 @@ import {
   IHeadCellResizeProps, IHeaderFilterButtonProps, IHeadRowProps, ILoadingProps, INoDataRowProps,
   IPagingIndexProps, IPagingProps, IPagingSizeProps, IPopupContentItemProps, IPopupContentProps,
   ISortIconProps, ISummaryCellProps, ISummaryRowProps, ITableBodyProps, ITableFootProps,
-  ITableHeadProps,
+  ITableHeadProps, IRowProps,
 } from '../props';
 import { ChildComponent } from './ChildComponent';
 
@@ -14,6 +14,7 @@ export class ChildComponents {
   public cellEditor?: ChildComponent<ICellEditorProps>;
   public cellEditorInput?: ChildComponent<ICellEditorProps>;
   public cellText?: ChildComponent<ICellTextProps>;
+  public dataAndDetailsRows?: ChildComponent<IRowProps>;
   public dataRow?: ChildComponent<IDataRowProps>;
   public detailsRow?: ChildComponent<IDataRowProps>;
   public filterRowCell?: ChildComponent<IFilterRowEditorProps>;
