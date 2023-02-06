@@ -29,7 +29,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm config set 'https://npm.pkg.github.com/:_authToken' "${{secrets.GITHUB_TOKEN}}"
       - run: yarn
-      - run: yarn compile
-      - run: yarn publish
+      - run: yarn run publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
