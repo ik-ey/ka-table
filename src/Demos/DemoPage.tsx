@@ -1,12 +1,12 @@
 import './DemoPage.scss';
 
-import React from 'react';
-
+import { CollapsedIcon } from '../lib/Icons/CollapsedIcon';
 import Demo from './Demo';
 import DemoText from './DemoText';
+import React from 'react';
 import { trackEvent } from './ga';
 
-const kaStylesDisabled = ['BootstrapDemo', 'MaterialDemo', 'CustomThemeDemo'];
+const kaStylesDisabled = ['BootstrapDemo', 'CustomThemeDemo'];
 const getDemoPage = (demo: Demo) => {
   return () => {
     return (
@@ -15,7 +15,7 @@ const getDemoPage = (demo: Demo) => {
           <h1>{demo.group && (
             <span className='group-header'>
               {demo.group}
-              <span className='group-header-icon ka-icon ka-icon-group-arrow ka-icon-group-arrow-collapsed'/>
+              <span className='group-header-icon'><CollapsedIcon style={{fill: 'currentColor', color: 'rgba(83, 88, 91, 0.6)'}} className='' /></span>
             </span>
           )} {demo.title}</h1>
           <demo.component />
@@ -23,24 +23,16 @@ const getDemoPage = (demo: Demo) => {
         <div className='code'>
           <div className='code-content'>
             <div className='editor-links'>
-              <span>Open in Online Editor: </span>
               <a className='editor-link editor-link-ts'
                 href={demo.tsLink}
                 onMouseDown={() => { trackEvent('click', 'ts_example', demo.path); }}
                 rel='noopener noreferrer'
                 target='_blank'>
-                  TS Example
-              </a>
-              <span>|</span>
-              <a className='editor-link editor-link-js'
-                href={demo.jsLink}
-                onMouseDown={() => { trackEvent('click', 'js_example', demo.path); }}
-                rel='noopener noreferrer'
-                target='_blank'>
-                  JS Example
+                  Open in Online Editor
               </a>
             </div>
             <DemoText demoFileName={demo.fileName}/>
+
           </div>
         </div>
       </div>

@@ -1,16 +1,18 @@
 import * as React from 'react';
 
-import { clearSingleAction } from '../../actionCreators';
-import { PagingPosition } from '../../enums';
+import { ActionType, PagingPosition } from '../../enums';
+import { ITableAllProps, ITableProps } from '../Table/Table';
+
 import { ChildComponents } from '../../Models/ChildComponents';
 import { DispatchFunc } from '../../types';
-import { getElementCustomization } from '../../Utils/ComponentUtils';
-import { isPagingShown } from '../../Utils/PagingUtils';
+import { GroupPanel } from '../GroupPanel/GroupPanel';
 import Loading from '../Loading/Loading';
 import Popup from '../Popup/Popup';
-import { ITableAllProps, ITableProps } from '../Table/Table';
 import { TablePaging } from '../TablePaging/TablePaging';
 import { TableWrapper } from '../TableWrapper/TableWrapper';
+import { clearSingleAction } from '../../actionCreators';
+import { getElementCustomization } from '../../Utils/ComponentUtils';
+import { isPagingShown } from '../../Utils/PagingUtils';
 
 export interface ITableControlledProps extends ITableProps {
   childComponents?: ChildComponents;
@@ -26,6 +28,7 @@ export const TableControlled: React.FunctionComponent<ITableAllProps> = (props) 
     dispatch,
     data,
     format,
+    groupPanel,
     height,
     loading,
     width,
@@ -41,18 +44,23 @@ export const TableControlled: React.FunctionComponent<ITableAllProps> = (props) 
   elementAttributes.style = { width, height, ...elementAttributes.style }
 
   React.useEffect(() => {
+    dispatch({ type: ActionType.ComponentDidMount });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
     if (singleAction) {
       dispatch(singleAction);
       dispatch(clearSingleAction());
     }
   });
 
-
   return (
     <TablePropsContext.Provider value={props}>
       <div {...elementAttributes}>
         {rootDivContent || (
           <>
+            {groupPanel?.enabled && <GroupPanel {...props} groupPanel={groupPanel}/>}
             {isPagingShown(PagingPosition.Top, paging) && <TablePaging {...props} />}
             <TableWrapper {...props} />
             {isPagingShown(PagingPosition.Bottom, paging) && <TablePaging {...props} />}

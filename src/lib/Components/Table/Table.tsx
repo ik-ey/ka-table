@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as actionCreators from '../../actionCreators';
 
-import { DispatchFunc, FilterFunc, FormatFunc, OnDispatchFunc, SearchFunc, SortFunc, ValidationFunc } from '../../types';
+import { ControlledPropsKeys, DispatchFunc, FilterFunc, FormatFunc, NoData, OnDispatchFunc, SearchFunc, SortFunc, ValidationFunc } from '../../types';
 import { EditableCell, PagingOptions } from '../../models';
 import { EditingMode, FilteringMode, SortingMode } from '../../enums';
 
@@ -9,6 +9,7 @@ import { ChildComponents } from '../../Models/ChildComponents';
 import { Column } from '../../Models/Column';
 import { Focused } from '../../Models/Focused';
 import { Group } from '../../Models/Group';
+import { GroupPanelSettings } from '../../Models/GroupPanelSettings';
 import { GroupedColumn } from '../../Models/GroupedColumn';
 import { ILoadingProps } from '../../props';
 import { TableControlled } from '../TableControlled/TableControlled';
@@ -33,12 +34,14 @@ export interface ITableProps {
   editableCells?: EditableCell[];
   editingMode?: EditingMode;
   extendedFilter?: (data: any[]) => any[];
+  extendedSort?: (data: any[], columns: Column[]) => any[];
   filter?: FilterFunc;
   filteringMode?: FilteringMode;
   focused?: Focused;
   format?: FormatFunc;
   groups?: Group[];
   groupsExpanded?: any[][];
+  groupPanel?: GroupPanelSettings;
   height?: number | string;
   loading?: ILoadingProps;
   paging?: PagingOptions;
@@ -52,10 +55,12 @@ export interface ITableProps {
   selectedRows?: any[];
   singleAction?: any;
   sort?: SortFunc;
+  noData?: NoData,
   sortingMode?: SortingMode;
   validation?: ValidationFunc;
   virtualScrolling?: VirtualScrolling;
   width?: number | string;
+  controlledPropsKeys?: ControlledPropsKeys;
 }
 
 export interface ITableEvents {

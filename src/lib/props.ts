@@ -1,11 +1,29 @@
+import { ChildComponents, Column, EditableCell, Group, VirtualScrolling } from './models';
+import { DispatchFunc, Field, FormatFunc, NoData, ValidationFunc } from './types';
+import { EditingMode, FilteringMode, SortingMode } from './enums';
 
+import { GroupPanelSettings } from './Models/GroupPanelSettings';
+import { GroupedColumn } from './Models/GroupedColumn';
 import { IRowsProps } from './Components/Rows/Rows';
 import { ITableAllProps } from './Components/Table/Table';
-import { EditingMode, FilteringMode, SortingMode } from './enums';
-import { ChildComponents, Column, EditableCell, Group, VirtualScrolling } from './models';
-import { GroupedColumn } from './Models/GroupedColumn';
-import { DispatchFunc, Field, FormatFunc, ValidationFunc } from './types';
 
+export interface IGroupPanelProps {
+  groupPanel: GroupPanelSettings;
+  columns: Column[];
+  groups?: Group[];
+  dispatch: DispatchFunc,
+  sortingMode?: SortingMode,
+  filteringMode?: FilteringMode,
+  childComponents?: ChildComponents;
+}
+
+export interface IGroupPanelCellProps {
+  column: Column;
+  dispatch: DispatchFunc,
+  sortingMode?: SortingMode,
+  filteringMode?: FilteringMode,
+  childComponents?: ChildComponents;
+}
 export interface IColGroupProps {
   columns: Column[];
   groupColumnsCount: number;
@@ -52,7 +70,7 @@ export interface ICellProps {
 }
 
 export interface IFilterRowEditorProps {
-  childComponents: ChildComponents;
+  childComponents?: ChildComponents;
   column: Column;
   dispatch: DispatchFunc;
 }
@@ -125,25 +143,29 @@ export interface IHeadCellResizeProps {
 export interface IHeadCellProps {
   areAllRowsSelected: boolean;
   childComponents: ChildComponents;
-  filteringMode?: FilteringMode;
+  colSpan?: number;
+  column: Column;
   columnReordering?: boolean;
   columnResizing?: boolean;
-  column: Column;
   dispatch: DispatchFunc;
+  filteringMode?: FilteringMode;
+  groupPanel?: GroupPanelSettings;
   hasChildren?: boolean;
   isGrouped?: boolean;
-  sortingMode: SortingMode;
-  colSpan?: number;
   rowSpan?: number;
+  sortingMode: SortingMode;
 }
 
 export interface INoDataRowProps {
-  childComponents: ChildComponents,
+  childComponents: ChildComponents;
+  loading?: ILoadingProps;
   columns: Column[];
   groupColumnsCount: number;
+  noData?: NoData;
 }
 
 export interface ITableHeadProps {
+  groupPanel?: GroupPanelSettings;
   columnReordering?: boolean;
   groupedColumns?: GroupedColumn[];
   columnResizing?: boolean;
@@ -160,6 +182,7 @@ export interface ITableBodyProps {
   childComponents: ChildComponents;
   columns: Column[];
   data: any[];
+  loading?: ILoadingProps;
   detailsRows?: any[];
   dispatch: DispatchFunc;
   editableCells: EditableCell[];
@@ -172,6 +195,7 @@ export interface ITableBodyProps {
   rowKeyField: string;
   rowReordering: boolean;
   selectedRows: any[];
+  noData?: NoData;
   validation?: ValidationFunc;
   virtualScrolling?: VirtualScrolling;
   treeExpandButtonColumnKey?: string;
@@ -214,6 +238,17 @@ export interface IEmptyCellsProps {
   isTh?: boolean;
   isColGroup?: boolean;
   className?: string;
+  dispatch?: DispatchFunc;
+  childComponents?: ChildComponents;
+}
+
+export interface IEmptyCellProps {
+  index?: number;
+  isTh?: boolean;
+  isColGroup?: boolean;
+  className?: string;
+  dispatch?: DispatchFunc;
+  childComponents?: ChildComponents;
 }
 
 export interface ICellEditorValidationMessageProps {
@@ -221,7 +256,7 @@ export interface ICellEditorValidationMessageProps {
 }
 
 export interface IFilterRowProps {
-  childComponents: ChildComponents;
+  childComponents?: ChildComponents;
   columns: Column[];
   dispatch: DispatchFunc;
   groupColumnsCount: number;
@@ -237,6 +272,7 @@ export interface IHeadRowProps {
   filteringMode?: FilteringMode;
   groupColumnsCount: number;
   groupedColumns?: GroupedColumn[];
+  groupPanel?: GroupPanelSettings;
   sortingMode: SortingMode;
 }
 
