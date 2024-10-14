@@ -1,11 +1,11 @@
 import { ActionType, DataType } from '../../enums';
 import Enzyme, { mount } from 'enzyme';
 
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import CellEditorString from './CellEditorString';
 import { ICellEditorProps } from '../../props';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -30,8 +30,9 @@ beforeEach(() => {
 describe('CellEditorNumber', () => {
     it('renders without crashing', () => {
         const element = document.createElement('td');
-        ReactDOM.render(<CellEditorString {...props} />, element);
-        ReactDOM.unmountComponentAtNode(element);
+        const root = createRoot(element!);
+        root.render(<CellEditorString {...props} />);
+        root.unmount();
     });
 
     it('should fire RowDataChanged', () => {
@@ -41,8 +42,8 @@ describe('CellEditorNumber', () => {
         wrapper.find('input').props().onChange!({
             currentTarget: { value: newValue },
         } as any);
-        expect(props.dispatch).toBeCalledTimes(1);
-        expect(props.dispatch).toBeCalledWith({
+        expect(props.dispatch).toHaveBeenCalledTimes(1);
+        expect(props.dispatch).toHaveBeenCalledWith({
             columnKey: 'fieldName',
             rowKeyValue: 1,
             type: ActionType.UpdateCellValue,
@@ -54,8 +55,8 @@ describe('CellEditorNumber', () => {
         const wrapper = mount(<CellEditorString {...props} />);
         wrapper.find('input').simulate('blur');
 
-        expect(props.dispatch).toBeCalledTimes(1);
-        expect(props.dispatch).toBeCalledWith({
+        expect(props.dispatch).toHaveBeenCalledTimes(1);
+        expect(props.dispatch).toHaveBeenCalledWith({
             type: ActionType.CloseEditor,
             columnKey: 'fieldName',
             rowKeyValue: 1,

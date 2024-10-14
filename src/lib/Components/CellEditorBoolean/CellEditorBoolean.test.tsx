@@ -1,11 +1,11 @@
 import { ActionType, DataType } from '../../enums';
 import Enzyme, { mount } from 'enzyme';
 
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import CellEditorBoolean from './CellEditorBoolean';
 import { ICellEditorProps } from '../../props';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 Enzyme.configure({ adapter: new Adapter() });
 const props: ICellEditorProps = {
@@ -30,8 +30,9 @@ beforeEach(() => {
 describe('CellEditorBoolean', () => {
     it('renders without crashing', () => {
         const element = document.createElement('td');
-        ReactDOM.render(<CellEditorBoolean {...props} />, element);
-        ReactDOM.unmountComponentAtNode(element);
+        const root = createRoot(element!);
+        root.render(<CellEditorBoolean {...props} />);
+        root.unmount();
     });
 
     it('should dispatch RowDataChanged', () => {
@@ -41,8 +42,8 @@ describe('CellEditorBoolean', () => {
         wrapper.find('input').props().onChange!({
             currentTarget: { checked: newValue },
         } as any);
-        expect(props.dispatch).toBeCalledTimes(1);
-        expect(props.dispatch).toBeCalledWith({
+        expect(props.dispatch).toHaveBeenCalledTimes(1);
+        expect(props.dispatch).toHaveBeenCalledWith({
             columnKey: 'fieldName',
             rowKeyValue: 2,
             type: ActionType.UpdateCellValue,
@@ -54,8 +55,8 @@ describe('CellEditorBoolean', () => {
         const wrapper = mount(<CellEditorBoolean {...props} />);
 
         wrapper.find('input').props().onBlur!({} as any);
-        expect(props.dispatch).toBeCalledTimes(1);
-        expect(props.dispatch).toBeCalledWith({
+        expect(props.dispatch).toHaveBeenCalledTimes(1);
+        expect(props.dispatch).toHaveBeenCalledWith({
             type: ActionType.CloseEditor,
             columnKey: 'fieldName',
             rowKeyValue: 2,

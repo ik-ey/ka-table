@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as actionCreators from '../../actionCreators';
 
-import { ControlledPropsKeys, DispatchFunc, FilterFunc, FormatFunc, NoData, OnDispatchFunc, SearchFunc, SortFunc, ValidationFunc } from '../../types';
+import { ControlledPropsKeys, CustomReducerFunc, DispatchFunc, FilterFunc, FormatFunc, NoData, OnDispatchFunc, SearchFunc, SortFunc, ValidationFunc } from '../../types';
 import { EditableCell, PagingOptions } from '../../models';
 import { EditingMode, FilteringMode, SortingMode } from '../../enums';
 
@@ -18,74 +18,76 @@ import { VirtualScrolling } from '../../Models/VirtualScrolling';
 
 type ActionCreators = typeof actionCreators;
 export interface ITableInstance extends ActionCreators {
-  props: ITableProps;
-  changeProps: React.Dispatch<React.SetStateAction<ITableProps>>;
-  onDispatch: OnDispatchFunc;
-  dispatch: DispatchFunc;
+    props: ITableProps;
+    changeProps: React.Dispatch<React.SetStateAction<ITableProps>>;
+    onDispatch: OnDispatchFunc;
+    dispatch: DispatchFunc;
+    customReducer?: CustomReducerFunc;
 }
 
-export interface ITableProps {
-  columnReordering?: boolean;
-  columnResizing?: boolean;
-  columns: Column[];
-  groupedColumns?: GroupedColumn[];
-  data?: any[];
-  detailsRows?: any[];
-  editableCells?: EditableCell[];
-  editingMode?: EditingMode;
-  extendedFilter?: (data: any[]) => any[];
-  extendedSort?: (data: any[], columns: Column[]) => any[];
-  filter?: FilterFunc;
-  filteringMode?: FilteringMode;
-  focused?: Focused;
-  format?: FormatFunc;
-  groups?: Group[];
-  groupsExpanded?: any[][];
-  groupPanel?: GroupPanelSettings;
-  height?: number | string;
-  loading?: ILoadingProps;
-  paging?: PagingOptions;
-  rowKeyField: string;
-  treeGroupKeyField?: string;
-  treeGroupsExpanded?: any[];
-  treeExpandButtonColumnKey?: string;
-  rowReordering?: boolean;
-  search?: SearchFunc;
-  searchText?: string;
-  selectedRows?: any[];
-  singleAction?: any;
-  sort?: SortFunc;
-  noData?: NoData,
-  sortingMode?: SortingMode;
-  validation?: ValidationFunc;
-  virtualScrolling?: VirtualScrolling;
-  width?: number | string;
-  controlledPropsKeys?: ControlledPropsKeys;
+export interface ITableProps<TData= any> {
+    columnReordering?: boolean;
+    columnResizing?: boolean;
+    columns: Column<TData>[];
+    controlledPropsKeys?: ControlledPropsKeys;
+    data?: TData[];
+    detailsRows?: any[];
+    editableCells?: EditableCell[];
+    editingMode?: EditingMode;
+    extendedFilter?: (data: TData[]) => TData[];
+    extendedSort?: (data: TData[], columns: Column[]) => TData[];
+    filter?: FilterFunc<TData>;
+    filteringMode?: FilteringMode;
+    focused?: Focused;
+    format?: FormatFunc<TData>;
+    groupedColumns?: GroupedColumn[];
+    groupPanel?: GroupPanelSettings;
+    groups?: Group[];
+    groupsExpanded?: any[][];
+    height?: number | string;
+    loading?: ILoadingProps;
+    noData?: NoData,
+    oddEvenRows?: boolean;
+    paging?: PagingOptions;
+    rowKeyField: string;
+    rowReordering?: boolean;
+    search?: SearchFunc<TData>;
+    searchText?: string;
+    selectedRows?: any[];
+    singleAction?: any;
+    sort?: SortFunc;
+    sortingMode?: SortingMode;
+    treeExpandButtonColumnKey?: string;
+    treeGroupKeyField?: string;
+    treeGroupsExpanded?: any[];
+    validation?: ValidationFunc<TData>;
+    virtualScrolling?: VirtualScrolling;
+    width?: number | string;
 }
 
 export interface ITableEvents {
-  dispatch: DispatchFunc;
+    dispatch: DispatchFunc;
 }
 
 export interface ITableAllProps extends ITableEvents, ITableProps {
-  childComponents?: ChildComponents;
+    childComponents?: ChildComponents;
 }
 
-export interface IKaTableProps extends ITableProps {
-  childComponents?: ChildComponents;
-  dispatch?: DispatchFunc;
-  table?: ITableInstance;
+export interface IKaTableProps<TData= any> extends ITableProps<TData> {
+    childComponents?: ChildComponents<TData>;
+    dispatch?: DispatchFunc;
+    table?: ITableInstance;
 }
 
-export const Table: React.FunctionComponent<IKaTableProps> = (props) => {
-  const { dispatch } = props;
+export const Table = <TData= any>(props: IKaTableProps<TData>) => {
+    const { dispatch } = props;
 
-  return dispatch ? (
-    <TableControlled
-      {...props}
-      dispatch={dispatch}
-    />
-  ) : (
-    <TableUncontrolled {...props} />
-  );
+    return dispatch ? (
+        <TableControlled
+            {...props}
+            dispatch={dispatch}
+        />
+    ) : (
+        <TableUncontrolled {...props} />
+    );
 };

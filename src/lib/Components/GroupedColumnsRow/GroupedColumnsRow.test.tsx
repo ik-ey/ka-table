@@ -1,23 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { GroupedColumnsRow } from './GroupedColumnsRow'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { IHeadRowProps } from '../../props'
+import { SortingMode } from '../../enums'
 
-import { GroupedColumnsRow } from './GroupedColumnsRow';
-
-const tableProps: any = {
-  childComponents: {},
-  columns: [
-    { key: 'column', name: 'Column 1' },
-    { key: 'column2', name: 'Column 2' },
-  ],
-  data: [
-    { column: 1, column2: 2, id: 1 },
-    { column: 12, column2: 22, id: 2 },
-  ],
-  rowKeyField: 'id',
+const props: IHeadRowProps = {
+    areAllRowsSelected: false,
+    childComponents: {},
+    columns: [
+        { key: 'column', title: 'Column 1' },
+        { key: 'column2', title: 'Column 2' },
+    ],
+    dispatch: () => null,
+    groupColumnsCount: 1,
+    groupedColumns: [{
+        key: 'grouped.column',
+        title: 'Group 1',
+        columnsKeys: ['column'],
+    }],
+    sortingMode: SortingMode.Single,
 };
 
 it('renders without crashing', () => {
-  const div = document.createElement('tbody');
-  ReactDOM.render(<GroupedColumnsRow {...tableProps} />, div);
-  ReactDOM.unmountComponentAtNode(div);
+    const div = document.createElement('tbody');
+    const root = createRoot(div!);
+    root.render(<GroupedColumnsRow {...props} />);
+    root.unmount();
 });
